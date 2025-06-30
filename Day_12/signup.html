@@ -1,0 +1,74 @@
+<form id="signupForm">
+  <label>Full Name: <input type="text" id="fullName" /></label><br />
+  <label>Username: <input type="text" id="username" /></label><br />
+  <label>Password: <input type="password" id="password1" /></label><br />
+  <label>Confirm Password: <input type="password" id="password2" /></label
+  ><br />
+  <label>Age: <input type="number" id="age" /></label><br />
+  <label>Birthdate: <input type="date" id="birthdate" /></label><br />
+  <label><input type="checkbox" id="legal" /> I agree to the legal terms</label
+  ><br />
+  <label
+    ><input type="checkbox" id="terms" /> I agree to the terms and
+    conditions</label
+  ><br />
+
+  <button type="button" onclick="processForm()">Sign Up</button>
+</form>
+
+<script>
+  function processForm() {
+    const fullName = document.getElementById("fullName").value.trim();
+    const username = document.getElementById("username").value.trim();
+    const password1 = document.getElementById("password1").value;
+    const password2 = document.getElementById("password2").value;
+    const age = parseInt(document.getElementById("age").value);
+    const birthdate = new Date(document.getElementById("birthdate").value);
+    const legal = document.getElementById("legal").checked;
+    const terms = document.getElementById("terms").checked;
+
+    console.log("Full Name: " + fullName);
+    console.log("Username: " + username);
+
+    // Checkboxes
+    console.log(
+      legal
+        ? "The user has checked the legal checkbox"
+        : "The user has not checked the legal checkbox"
+    );
+    console.log(
+      terms
+        ? "The user has checked the terms checkbox"
+        : "The user has not checked the terms checkbox"
+    );
+
+    // Eligibility check
+    const fieldsFilled =
+      fullName && username && password1 && password2 && age && birthdate;
+    const passwordsMatch = password1 === password2;
+    const isOldEnough = age >= 13;
+    const hasCheckedBoth = legal && terms;
+
+    if (passwordsMatch && isOldEnough && hasCheckedBoth && fieldsFilled) {
+      console.log("The user is eligible");
+    } else {
+      console.log("The user is ineligible");
+    }
+
+    // Stretch Goal: Check birthdate vs age
+    const today = new Date();
+    let actualAge = today.getFullYear() - birthdate.getFullYear();
+    const monthDiff = today.getMonth() - birthdate.getMonth();
+    const dayDiff = today.getDate() - birthdate.getDate();
+
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      actualAge--; // Birthday hasn't occurred yet this year
+    }
+
+    if (actualAge !== age) {
+      console.log("The user is not likely to be good at math");
+    } else {
+      console.log("The user can figure out the user's age");
+    }
+  }
+</script>
